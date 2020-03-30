@@ -1,0 +1,61 @@
+//reverse using recursion
+#include<bits/stdc++.h>
+using namespace std;
+
+class Stack {
+    int top = -1;
+    unique_ptr<int[]> array;
+
+    public:
+        Stack(int sz) : array(new int[sz]){};
+        bool empty()
+        {
+            return (top == -1);
+        }
+        void push(int val)
+        {
+            array[++top] = val;
+        }
+        int pop()
+        {
+            return array[top--];
+        }
+};
+
+void insert_at_bottom(int val, Stack& s)
+{
+    if(s.empty())
+    {
+        s.push(val);
+        return;
+    }
+    else
+    {
+        int temp = s.pop();
+        insert_at_bottom(val, s);
+        s.push(temp);
+    }
+}
+void reverse(Stack& s)
+{
+    if(s.empty())
+        return;
+    int temp = s.pop();
+    reverse(s);
+    insert_at_bottom(temp, s);
+}
+int main()
+{
+    Stack s(5);
+    s.push(1);
+    s.push(2);
+    s.push(3);
+    s.push(4);
+    s.push(5);
+
+    reverse(s);
+    while(!s.empty())
+    {
+        cout << s.pop() << " ";
+    }
+}
